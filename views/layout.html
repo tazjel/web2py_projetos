@@ -45,7 +45,9 @@
   response.files.insert(1,URL('static','css/bootstrap.min.css'))
   response.files.insert(2,URL('static','css/bootstrap-responsive.min.css'))
   response.files.insert(3,URL('static','css/web2py_bootstrap.css'))
-  response.files.insert(4,URL('static','css/dtic.css'))
+  response.files.insert(4,URL('static','css/projetosstyle.css'))
+  response.files.insert(5,URL('static','css/dtic.css'))
+
   }}
 
   {{include 'web2py_ajax.html'}}
@@ -99,7 +101,7 @@
 
                 <h1>
                     {{=A(IMG(_src=URL("static", "images/logo_dtic_256.png")), _href="http://www.unirio.br/dtic", _target="blank")}}
-                    <span class="big-header-letter">P</span>rocessos
+                    <span class="big-header-letter">P</span>rojetos de Pesquisa
                     <small>{{=response.subtitle or ''}}</small>
                 </h1>
             </div>
