@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
-import form
+from forms import controlGroup, selectbox
+from tables import ProjetosTable
+from SIEProjeto import *
 
+
+@cache(request.env.path_info, time_expire=600, cache_model=cache.ram)
 def index():
+    projetos = SIEProjeto()
     form = FORM(
-                forms.printControlGroup( "Título", "titulo", INPUT(_name="titulo") ),
-                forms.printControlGroup( "Nome Participante", "participante", INPUT(_name="participante") ),
-                forms.printControlGroup( "Unidade" , "unidade", forms.printProjetosUnidades() ),
-                forms.printControlGroup( "Ano", 'ano', forms.printProjetosAnos() ),
-                forms.printControlGroup( "Classificação CNPQ", "area", forms.printAreaConhecimento() ),
-                forms.printControlGroup( "Grupo CNPQ", "grupo", forms.printGrupoCNPQ() ),
+                controlGroup( "Título", "titulo", INPUT(_name="titulo") ),
+                controlGroup( "Nome Participante", "participante", INPUT(_name="participante") ),
+                controlGroup( "Unidade" , "unidade", selectbox(projetos.unidades(), 'ID_UNIDADE', 'NOME_UNIDADE') ),
+                # controlGroup( "Ano", 'ano', projetos.anosReferencia() ),
+                controlGroup( "Classificação CNPQ", "area", selectbox(projetos.areasTematicas(), 'ID_AREA', 'AREA_CNPQ') ),
+                controlGroup( "Grupo CNPQ", "grupo", selectbox(projetos.grupoCNPQ(), 'ID_CLASSIFICACAO', 'GRUPO_CNPQ') ),
                 INPUT(_value="Buscar",_type='submit'),
                 _class="form-horizontal"
             )
@@ -16,9 +21,8 @@ def index():
     if form.process().accepted:
         try:
             filtros = form.vars
-            queryFilter = QueryFilter(filtros)
 
-            projetos = dbfunctions.getProjetos( queryFilter.getFilters() )
+            # projetos = dbfunctions.getProjetos( queryFilter.getFilters() )
             table = ProjetosTable(projetos)
 
             return dict(form=form, results=table.printTable() )
