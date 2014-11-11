@@ -7,7 +7,7 @@ class SIEProjeto(object):
     def __init__(self):
         self.apiRequest = UNIRIOAPIRequest(current.kAPIKey)
         self.lmin = 0
-        self.lmax = 300
+        self.lmax = 500
 
 
     def _getContent(self, path, params={}):
@@ -56,3 +56,6 @@ class SIEProjeto(object):
 
     def getProjetos(self, filters):
         return self._getContent("V_PROJETOS", filters)
+
+    def getParticipantes(self, filters):
+        return self._getContent("V_PROJETOS_PARTICIPANTES", filters)
