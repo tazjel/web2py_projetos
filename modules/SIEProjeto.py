@@ -32,22 +32,27 @@ class SIEProjeto(object):
 
 
     def unidades(self):
-        path = "V_PROJETOS_UNIDADES"
-        return self._sortedContent(path, "NOME_UNIDADE")
+        if current.session.unidades:
+            return current.session.unidades
+        current.session.unidades = self._sortedContent("V_PROJETOS_UNIDADES", "NOME_UNIDADE")
+        return current.session.unidades
 
     def anosReferencia(self):
         path = "V_PROJETOS"
         fields = ["ANO_REFERENCIA"]
         return self._getContent(path)
 
-    def areaConhecimento(self):
-        path = "V_PROJETOS_AREAS_CONHECIMENTO"
-        return self._sortedContent(path, "DESCRICAO")
+    def areasConhecimento(self):
+        if current.session.areasConhecimento:
+            return current.session.areasConhecimento
+        current.session.areasConhecimento = self._sortedContent("V_PROJETOS_AREAS_CONHECIMENTO", "DESCRICAO")
+        return current.session.areasConhecimento
 
-    def grupoCNPQ(self):
-        path = "V_PROJETOS_GRUPO_CNPQ"
-        return self._sortedContent(path, "GRUPO_CNPQ")
+    def gruposCNPQ(self):
+        if current.session.gruposCNPQ:
+            return current.session.gruposCNPQ
+        current.session.gruposCNPQ =  self._sortedContent("V_PROJETOS_GRUPO_CNPQ", "GRUPO_CNPQ")
+        return current.session.gruposCNPQ
 
     def getProjetos(self, filters):
-        path = "V_PROJETOS"
-        return self._getContent(path, filters)
+        return self._getContent("V_PROJETOS", filters)

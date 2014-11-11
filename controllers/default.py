@@ -4,32 +4,29 @@ from tables import ProjetosTable
 from SIEProjeto import *
 
 
-@cache(request.env.path_info, time_expire=600, cache_model=cache.ram)
 def index():
+    session.projetos = None
+
     projetos = SIEProjeto()
     form = FORM(
-                controlGroup( "Título", "titulo", INPUT(_name="titulo") ),
-                controlGroup( "Nome Participante", "participante", INPUT(_name="participante") ),
-                controlGroup( "Unidade" , "unidade", selectbox(projetos.unidades(), 'ID_UNIDADE', 'NOME_UNIDADE') ),
-                # controlGroup( "Ano", 'ano', projetos.anosReferencia() ),
-                controlGroup( "Classificação CNPQ", "area", selectbox(projetos.areasTematicas(), 'ID_AREA', 'AREA_CNPQ') ),
-                controlGroup( "Grupo CNPQ", "grupo", selectbox(projetos.grupoCNPQ(), 'ID_CLASSIFICACAO', 'GRUPO_CNPQ') ),
-                INPUT(_value="Buscar",_type='submit'),
-                _class="form-horizontal"
-            )
+        controlGroup( "Título", "titulo", INPUT(_name="TITULO") ),
+        controlGroup( "Nome Participante", "participante", INPUT(_name="participante") ),
+        controlGroup( "Unidade" , "unidade", selectbox(projetos.unidades(), 'ID_UNIDADE', 'NOME_UNIDADE') ),
+        # controlGroup( "Ano", 'ano', projetos.anosReferencia() ),
+        controlGroup( "Classificação CNPQ", "area", selectbox(projetos.areasTematicas(), 'ID_AREA', 'AREA_CNPQ') ),
+        controlGroup( "Grupo CNPQ", "grupo", selectbox(projetos.gruposCNPQ(), 'ID_CLASSIFICACAO', 'GRUPO_CNPQ')),
+        INPUT(_value="Buscar",_type='submit'),
+        _class="form-horizontal"
+    )
 
     if form.process().accepted:
         try:
-            filtros = form.vars
+            session.projetos = projetos.getProjetos(form.vars)
+            redirect(URL('search', 'index'))
+        except ValueError:
+            response.flash = "Nenhum projeto encontrado. Tente novamente com novos parâmetros de busca."
 
-            # projetos = dbfunctions.getProjetos( queryFilter.getFilters() )
-            table = ProjetosTable(projetos)
-
-            return dict(form=form, results=table.printTable() )
-        except Exception, e:
-            raise e
-
-    return dict(form=form, results=None )
+    return dict(form=form)
 
 
 def user():
