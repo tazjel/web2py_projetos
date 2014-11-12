@@ -94,7 +94,7 @@ class ProjetosTable(object):
         row = []
         row.append(TD(projeto['TITULO'], _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['UNIDADE_RESPONSAVEL'], _class="dr-table-cell rich-table-cell"))
-        row.append(TD(projeto['GRUPO_CNPQ'], _class="dr-table-cell rich-table-cell"))
+        row.append(TD("---", _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['COORDENADOR'], _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['ANO_REFERENCIA'], _class="dr-table-cell rich-table-cell"))
         row.append(
