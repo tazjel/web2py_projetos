@@ -63,8 +63,8 @@ class ProjetosTable(object):
         'Unidade Responsável',
         'Grupo CNPQ',
         'Coordenador',
-        'Data de Início',
-        'Resumo'
+        'Data de Início'
+        # 'Resumo'
     ]
 
 
@@ -92,14 +92,14 @@ class ProjetosTable(object):
 
     def getRowContent(self, projeto):
         row = []
-        row.append(TD(projeto['TITULO'], _class="dr-table-cell rich-table-cell"))
+        row.append(TD(A(projeto['TITULO'], _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))), _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['UNIDADE_RESPONSAVEL'], _class="dr-table-cell rich-table-cell"))
-        row.append(TD("---", _class="dr-table-cell rich-table-cell"))
+        row.append(TD(projeto['GRUPO_CNPQ'], _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['COORDENADOR'], _class="dr-table-cell rich-table-cell"))
         row.append(TD(projeto['ANO_REFERENCIA'], _class="dr-table-cell rich-table-cell"))
-        row.append(
-            TD(A("Detalhes", _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))),
-               _class="dr-table-cell rich-table-cell"))
+        # row.append(
+        #     TD(A("Detalhes", _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))),
+        #        _class="dr-table-cell rich-table-cell"))
         return row
 
 
