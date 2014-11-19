@@ -95,6 +95,7 @@ class UNIRIOAPIRequest(object):
         """
 
         url = self._URLWithPath(path) + "?" + self.URLQueryData(params, fields)
+        print url
 
         try:
             json = urllib.urlopen(url).read()

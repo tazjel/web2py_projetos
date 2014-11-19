@@ -3,7 +3,7 @@
  */
 $(window).bind('scroll', function() {
 
-            if ($(this).scrollTop() > 100) {
+            if ($(this).scrollTop() > 50) {
 
                 $('div.navbar').css({
                     position: 'fixed',

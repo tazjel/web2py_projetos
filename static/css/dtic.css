@@ -12,6 +12,13 @@ label{
     display:inline;
 }
 
+p{
+    line-height: 1.5em;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
 .dadosServidor label, .anexo2 label{
     display:block;
 }
@@ -72,7 +79,15 @@ footer, #footer, .footer{
 }
 #footer-leftdiv{
     float:left;
-    width: 40%;
+    width: 50%;
+
+}
+#footer-leftdiv, #footer-leftdiv a {
+    color: #ccc;
+}
+
+span.footer-line{
+    display: block;
 }
 
 .footer-content{

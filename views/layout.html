@@ -136,22 +136,24 @@
     </section><!--/main-->
 
     <!-- Footer ================================================== -->
-    <div class="row">
-        <footer class="footer span12" id="footer">
-            <div class="footer-content">
-                {{block footer}} <!-- this is default footer -->
-                <div id="footer-leftdiv">
-
-                </div>
-                <div id="poweredBy" class="pull-right">
-                    {{=A(IMG(_src=URL("static", "images/logo_dtic_64.png"), _class="desaturate"), _href="http://www.unirio.br/dtic")}}
+      <div class="row">
+          <footer class="footer span12" id="footer">
+              <div id="footer-leftdiv">
+                  <span class="footer-line"><a href="www.unirio.br">Universidade Federal do Estado do Rio de Janeiro</a></span>
+                  <span class="footer-line"><a href="www.unirio.br/dtic">Diretoria de Tecnologia da Informação e Comunicação</a></span>
+                  <span class="footer-line">Av. Pasteur, 296 - Urca. Rio de Janeiro. RJ. Brasil</span>
+              </div>
+              <div class="footer-content">
+              {{block footer}} <!-- this is default footer -->
+                  <div id="poweredBy" class="pull-right">
+                  {{=A(IMG(_src=URL("static", "images/logo_dtic_64.png"), _class="desaturate"), _href="http://www.unirio.br/dtic")}}
                     {{=A(IMG(_src=URL("static", "images/logo_api_64.png"), _class="desaturate"), _href="http://sistemas.unirio.br/api")}}
 
                     {{=A(IMG(_src=URL("static", "images/logo_web2py_128.png"), _width=64), _href="http://www.web2py.com")}}
 
-                </div>
-                {{end}}
-            </div>
+                  </div>
+              {{end}}
+              </div>
         </footer>
     </div>
 
