@@ -12,7 +12,7 @@ def index():
         controlGroup( "Título", "titulo", INPUT(_name="TITULO") ),
         controlGroup( "Nome Participante", "participante", INPUT(_name="participante") ),
         controlGroup( "Unidade" , "unidade", selectbox(projetos.unidades(), 'ID_UNIDADE', 'NOME_UNIDADE') ),
-        # controlGroup( "Ano", 'ano', projetos.anosReferencia() ),
+        controlGroup( "Ano", 'ano', selectbox(projetos.anos(), 'ANO_REFERENCIA', 'ANO_REFERENCIA') ),
         controlGroup( "Classificação CNPQ", "area", selectbox(projetos.areasTematicas(), 'ID_AREA', 'AREA_CNPQ') ),
         controlGroup( "Grupo CNPQ", "grupo", selectbox(projetos.gruposCNPQ(), 'ID_CLASSIFICACAO', 'GRUPO_CNPQ')),
         INPUT(_value="Buscar",_type='submit'),

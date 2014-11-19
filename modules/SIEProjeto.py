@@ -10,7 +10,7 @@ class SIEProjeto(object):
         self.lmax = 500
 
 
-    def _getContent(self, path, params={}):
+    def _getContent(self, path, params={}, fields=[]):
         """
 
         :type params: dict
@@ -20,7 +20,7 @@ class SIEProjeto(object):
             params[k] = str(params[k]).upper()
         params.update(limits)
 
-        api = self.apiRequest.performGETRequest(path, params)
+        api = self.apiRequest.performGETRequest(path, params, fields)
         return api.content
 
     def _sortedContent(self, path, key):
@@ -37,11 +37,6 @@ class SIEProjeto(object):
         current.session.unidades = self._sortedContent("V_PROJETOS_UNIDADES", "NOME_UNIDADE")
         return current.session.unidades
 
-    def anosReferencia(self):
-        path = "V_PROJETOS"
-        fields = ["ANO_REFERENCIA"]
-        return self._getContent(path)
-
     def areasConhecimento(self):
         if current.session.areasConhecimento:
             return current.session.areasConhecimento
@@ -53,6 +48,15 @@ class SIEProjeto(object):
             return current.session.gruposCNPQ
         current.session.gruposCNPQ =  self._sortedContent("V_PROJETOS_GRUPO_CNPQ", "GRUPO_CNPQ")
         return current.session.gruposCNPQ
+
+    def anos(self):
+        api = self.apiRequest.performGETRequest(
+            "V_PROJETOS",
+            {"LMIN": 0, "LMAX": 1000, "SORT": "ANO_REFERENCIA"},
+            ["ANO_REFERENCIA"]
+        )
+        anosUnicos = set(v["ANO_REFERENCIA"] for v in api.content)
+        return [{"ANO_REFERENCIA": v} for v in anosUnicos]
 
     def getProjetos(self, filters):
         return self._getContent("V_PROJETOS", filters)
