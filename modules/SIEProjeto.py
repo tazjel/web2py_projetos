@@ -79,13 +79,14 @@ class SIEProjeto(object):
         """
         Metódo retorna uma lista com todos os projetos no qual o nome passado é participante
 
+        :type nome: str
         :rtype : list
         :param nome: O nome ou parte de um nome de um participante
         :return: Uma lista de ID_PROJETO
         """
         result = self.apiRequest.performGETRequest(
             "V_PROJETOS_PARTICIPANTES",
-            {"LMIN": 0, "LMAX": 1000, "NOME_PESSOA": nome},
+            {"LMIN": 0, "LMAX": 1000, "NOME_PESSOA": nome.upper()},
             ["ID_PROJETO"]
         )
         return set(projeto["ID_PROJETO"] for projeto in result.content)

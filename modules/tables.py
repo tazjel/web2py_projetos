@@ -58,6 +58,8 @@ class ParticipantesTable(DefaultTable):
 
 class ProjetosTable(object):
     projetos = None
+    _headTRclass = "dr-table-subheader rich-table-subheader tituloTabela"
+    _headTDclass = "dr-table-subheadercell rich-table-subheadercell tituloTabela"
     _titleList = [
         'Título',
         'Unidade Responsável',
@@ -76,10 +78,8 @@ class ProjetosTable(object):
 
     # print THEAD(TR(TH('<hello>')), _class='test', _id=0)
     def getTableHead(self):
-        heads = []
-        for title in self._titleList:
-            heads.append(TD(SPAN(title), _class="dr-table-subheadercell rich-table-subheadercell tituloTabela"))
-        return THEAD(TR(heads, _class="dr-table-subheader rich-table-subheader tituloTabela"))
+        heads = [TD(SPAN(title), _class=self._headTDclass) for title in self._titleList]
+        return THEAD(TR(heads, _class=self._headTRclass))
 
     def getTableBody(self):
         return TBODY(self.getTableRows())
@@ -91,16 +91,17 @@ class ProjetosTable(object):
         return rows
 
     def getRowContent(self, projeto):
-        row = []
-        row.append(TD(A(projeto['TITULO'], _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))), _class="dr-table-cell rich-table-cell"))
-        row.append(TD(projeto['UNIDADE_RESPONSAVEL'], _class="dr-table-cell rich-table-cell"))
-        row.append(TD(projeto['GRUPO_CNPQ'], _class="dr-table-cell rich-table-cell"))
-        row.append(TD(projeto['COORDENADOR'], _class="dr-table-cell rich-table-cell"))
-        row.append(TD(projeto['ANO_REFERENCIA'], _class="dr-table-cell rich-table-cell"))
-        # row.append(
+        return [
+            TD(A(projeto['TITULO'], _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))),
+               _class="dr-table-cell rich-table-cell"),
+            TD(projeto['UNIDADE_RESPONSAVEL'], _class="dr-table-cell rich-table-cell"),
+            TD(projeto['GRUPO_CNPQ'], _class="dr-table-cell rich-table-cell"),
+            TD(projeto['COORDENADOR'], _class="dr-table-cell rich-table-cell"),
+            TD(projeto['ANO_REFERENCIA'], _class="dr-table-cell rich-table-cell")
+        ]
         #     TD(A("Detalhes", _href=URL("projeto", "index", vars=dict(ID_PROJETO=projeto['ID_PROJETO']))),
-        #        _class="dr-table-cell rich-table-cell"))
-        return row
+        #        _class="dr-table-cell rich-table-cell")
+
 
 
 class ClassificacoesTable(DefaultTable):
@@ -113,10 +114,11 @@ class ClassificacoesTable(DefaultTable):
         DefaultTable.__init__(self, contents, titleList)
 
     def getRowContent(self, content):
-        row = []
-        row.append(TD(content['TIPO_CLASSIFICACAO'], _class=self._bodyTRclass))
-        row.append(TD(content['CLASSIFICACAO'], _class=self._bodyTRclass))
-        return row
+        return [
+            TD(content['TIPO_CLASSIFICACAO'], _class=self._bodyTRclass),
+            TD(content['CLASSIFICACAO'], _class=self._bodyTRclass)
+        ]
+
 
 
 class ResumoTable(object):
@@ -132,16 +134,15 @@ class ResumoTable(object):
         return TBODY(self.getTableRows())
 
     def getTableRows(self):
-        rows = []
-        rows.append(self.getRow(self.projeto['TITULO'], "Título"))
-        rows.append(self.getRow(self.projeto['RESUMO'], "Resumo"))
-        rows.append(self.getRow(self.projeto['UNIDADE_RESPONSAVEL'], "Unidade Responsável"))
-        rows.append(self.getRow(self.projeto['COORDENADOR'], "Coordenador(a)"))
-        rows.append(self.getRow(self.projeto['DT_INICIAL'], "Data de Início"))
-        rows.append(self.getRow(self.projeto['ANO_REFERENCIA'], "Ano de Referência"))
-        rows.append(self.getRow(self.projeto['DESCR_MAIL'], "E-mail"))
-
-        return rows
+        return [
+            self.getRow(self.projeto['TITULO'], "Título"), self.getRow(self.projeto['RESUMO'], "Resumo"),
+            self.getRow(self.projeto['UNIDADE_RESPONSAVEL'], "Unidade Responsável"),
+            self.getRow(self.projeto['COORDENADOR'], "Coordenador(a)"),
+            self.getRow(self.projeto['DESCR_FUNDACAO'], "Fonte de Financiamento"),
+            self.getRow(self.projeto['DT_INICIAL'], "Data de Início"),
+            self.getRow(self.projeto['ANO_REFERENCIA'], "Ano de Referência"),
+            self.getRow(self.projeto['DESCR_MAIL'], "E-mail")
+        ]
 
     def getRow(self, content, title):
         if not content:
