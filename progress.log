@@ -1,0 +1,7 @@
+[2014-11-17 14:26:01] START
+[2014-11-17 14:26:01] CREATE 1_dbconn.py: 0
+[2014-11-17 14:26:15] EDIT projetos/models/1_dbconn.py: 4
+[2014-11-17 14:29:33] EDIT projetos/modules/unirio/api/apirequest.py: 0
+[2014-11-17 14:29:56] EDIT projetos/modules/unirio/api/apirequest.py: 0
+[2014-11-17 14:32:23] EDIT projetos/modules/unirio/api/apirequest.py: 0
+[2014-11-24 09:18:30] EDIT projetos/views/default/index.html: -10
