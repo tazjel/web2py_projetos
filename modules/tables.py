@@ -139,6 +139,7 @@ class ResumoTable(object):
             self.getRow(self.projeto['UNIDADE_RESPONSAVEL'], "Unidade Responsável"),
             self.getRow(self.projeto['COORDENADOR'], "Coordenador(a)"),
             self.getRow(self.projeto['DESCR_FUNDACAO'], "Fonte de Financiamento"),
+            self.getRow(self.projeto['DESCR_SITUACAO'], "Situação do Projeto"),
             self.getRow(self.projeto['DT_INICIAL'], "Data de Início"),
             self.getRow(self.projeto['ANO_REFERENCIA'], "Ano de Referência"),
             self.getRow(self.projeto['DESCR_MAIL'], "E-mail")
