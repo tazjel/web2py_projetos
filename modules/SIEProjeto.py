@@ -56,6 +56,11 @@ class SIEProjeto(object):
 
         return current.session.anos
 
+    def classificacoes(self, ID_PROJETO):
+        return self._getContent("V_PROJETOS_CLASSIFICACOES", {
+            "ID_PROJETO": ID_PROJETO
+        })
+
     def getProjetos(self, filters):
         """
 

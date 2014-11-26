@@ -13,13 +13,13 @@ def index():
         "Participante Função E-mail Vínculo Vigência".split()
     )
 
-    # tableClassificacoes = ClassificacoesTable(
-    #     projetos.getClassificacoes(request.vars.ID_PROJETO),
-    #     "Tipo Classificação".split()
-    # )
+    tableClassificacoes = ClassificacoesTable(
+        projetos.classificacoes(request.vars.ID_PROJETO),
+        "Tipo Classificação".split()
+    )
 
     return dict(
         projeto=tableProjeto.printTable(),
         participantes=tableParticipantes.printTable("dr-table rich-table table table-striped"),
-        # classificacoes=tableClassificacoes.printTable("dr-table rich-table table table-striped")
+        classificacoes=tableClassificacoes.printTable("dr-table rich-table table table-striped")
     )
