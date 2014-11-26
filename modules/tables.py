@@ -50,13 +50,13 @@ class ParticipantesTable(DefaultTable):
         DefaultTable.__init__(self, contents, titleList)
 
     def getRowContent(self, content):
-        row = []
-        row.append(TD(content['NOME_PESSOA'], _class=self._bodyTRclass))
-        row.append(TD(content['FUNCAO'], _class=self._bodyTRclass))
-        row.append(TD(content['DESCR_MAIL'] if content['DESCR_MAIL'] else "--", _class=self._bodyTRclass))
-        row.append(TD(content['VINCULO'], _class=self._bodyTRclass))
-        row.append(TD(formatedDate(content['DT_INICIAL']) + " a " + formatedDate(content['DT_FINAL']), _class=self._bodyTRclass))
-        return row
+        return [
+            TD(content['NOME_PESSOA'], _class=self._bodyTRclass),
+            TD(content['FUNCAO'], _class=self._bodyTRclass),
+            TD(content['DESCR_MAIL'] if content['DESCR_MAIL'] else "--", _class=self._bodyTRclass),
+            TD(content['VINCULO'], _class=self._bodyTRclass),
+            TD(formatedDate(content['DT_INICIAL']) + " a " + formatedDate(content['DT_FINAL']), _class=self._bodyTRclass)
+        ]
 
 
 class ProjetosTable(object):
