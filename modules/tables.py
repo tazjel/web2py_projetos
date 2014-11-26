@@ -1,4 +1,5 @@
 # coding=utf-8
+from datetime import datetime
 from gluon.html import *
 
 
@@ -37,6 +38,8 @@ class DefaultTable(object):
         pass
 
 
+
+
 class ParticipantesTable(DefaultTable):
     _headTRclass = "dr-table-subheader rich-table-subheader tituloTabela"
     _headTDclass = "dr-table-subheadercell rich-table-subheadercell tituloTabela"
@@ -50,9 +53,9 @@ class ParticipantesTable(DefaultTable):
         row = []
         row.append(TD(content['NOME_PESSOA'], _class=self._bodyTRclass))
         row.append(TD(content['FUNCAO'], _class=self._bodyTRclass))
-        row.append(TD(content['DESCR_MAIL'], _class=self._bodyTRclass))
+        row.append(TD(content['DESCR_MAIL'] if content['DESCR_MAIL'] else "--", _class=self._bodyTRclass))
         row.append(TD(content['VINCULO'], _class=self._bodyTRclass))
-        row.append(TD(str(content['DT_INICIAL']) + " a " + str(content['DT_FINAL']), _class=self._bodyTRclass))
+        row.append(TD(formatedDate(content['DT_INICIAL']) + " a " + formatedDate(content['DT_FINAL']), _class=self._bodyTRclass))
         return row
 
 
@@ -133,19 +136,31 @@ class ResumoTable(object):
     def printBody(self):
         return TBODY(self.getTableRows())
 
+    @property
+    def emailCoordenador(self):
+        email = self.projeto['DESCR_MAIL'] if self.projeto['DESCR_MAIL'] else "--"
+        return "( " + email + " )"
+
+    @property
+    def vigencia(self):
+        return formatedDate(self.projeto['DT_INICIAL']) + " a " + formatedDate(self.projeto['DT_FINAL'])
+
     def getTableRows(self):
         return [
             self.getRow(self.projeto['TITULO'], "Título"), self.getRow(self.projeto['RESUMO'], "Resumo"),
             self.getRow(self.projeto['UNIDADE_RESPONSAVEL'], "Unidade Responsável"),
-            self.getRow(self.projeto['COORDENADOR'], "Coordenador(a)"),
+            self.getRow(self.projeto['COORDENADOR'] + self.emailCoordenador, "Coordenador(a)"),
             self.getRow(self.projeto['DESCR_FUNDACAO'], "Fonte de Financiamento"),
             self.getRow(self.projeto['DESCR_SITUACAO'], "Situação do Projeto"),
-            self.getRow(self.projeto['DT_INICIAL'], "Data de Início"),
+            self.getRow(self.vigencia, "Vigência"),
             self.getRow(self.projeto['ANO_REFERENCIA'], "Ano de Referência"),
-            self.getRow(self.projeto['DESCR_MAIL'], "E-mail")
         ]
 
     def getRow(self, content, title):
         if not content:
             content = "Não cadastrado"
         return TR(TD(title), TD(SPAN(content, _class="textoForm")))
+
+
+def formatedDate(date):
+    return datetime.strptime(date, "%Y-%m-%d").strftime('%d/%m/%Y') if date else "--/--/----"
