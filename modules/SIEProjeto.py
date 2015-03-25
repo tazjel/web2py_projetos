@@ -1,12 +1,11 @@
 # coding=utf-8
 from gluon import current
-from unirio.api import UNIRIOAPIRequest
 from operator import itemgetter
 
 
 class SIEProjeto(object):
     def __init__(self):
-        self.apiRequest = UNIRIOAPIRequest(current.kAPIKey)
+        self.apiRequest = current.api
         self.lmin = 0
         self.lmax = 1000
         self.cacheTime = 86400
