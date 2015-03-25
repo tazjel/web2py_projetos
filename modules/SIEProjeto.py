@@ -9,6 +9,7 @@ class SIEProjeto(object):
         self.apiRequest = UNIRIOAPIRequest(current.kAPIKey)
         self.lmin = 0
         self.lmax = 1000
+        self.cacheTime = 86400
 
 
     def _getContent(self, path, params={}, fields=[]):
@@ -20,33 +21,25 @@ class SIEProjeto(object):
         for k, v in params.items():
             params[k] = str(params[k]).upper()
         params.update(limits)
-
-        api = self.apiRequest.performGETRequest(path, params, fields)
-        return api.content
+        try:
+            return self.apiRequest.performGETRequest(path, params, fields, cached=self.cacheTime).content
+        except AttributeError:
+            return []
 
     def _sortedContent(self, path, key):
         return sorted(self._getContent(path), key=itemgetter(key))
 
     def areasTematicas(self):
-        if not current.session.areasTematicas:
-            current.session.areasTematicas = self._sortedContent("V_PROJETOS_AREAS_PESQUISA_CNPQ", 'AREA_CNPQ')
-        return current.session.areasTematicas
-
+        return self._sortedContent("V_PROJETOS_AREAS_PESQUISA_CNPQ", 'AREA_CNPQ')
 
     def unidades(self):
-        if not current.session.unidades:
-            current.session.unidades = self._sortedContent("V_PROJETOS_UNIDADES", "NOME_UNIDADE")
-        return current.session.unidades
+        return self._sortedContent("V_PROJETOS_UNIDADES", "NOME_UNIDADE")
 
     def areasConhecimento(self):
-        if not current.session.areasConhecimento:
-            current.session.areasConhecimento = self._sortedContent("V_PROJETOS_AREAS_CONHECIMENTO", "DESCRICAO")
-        return current.session.areasConhecimento
+        return self._sortedContent("V_PROJETOS_AREAS_CONHECIMENTO", "DESCRICAO")
 
     def gruposCNPQ(self):
-        if not current.session.gruposCNPQ:
-            current.session.gruposCNPQ =  self._sortedContent("V_PROJETOS_GRUPO_CNPQ", "GRUPO_CNPQ")
-        return current.session.gruposCNPQ
+        return self._sortedContent("V_PROJETOS_GRUPO_CNPQ", "GRUPO_CNPQ")
 
     def anos(self):
         if not current.session.anos:
@@ -68,10 +61,8 @@ class SIEProjeto(object):
         """
         if filters["participante"]:
             comParticipante = self.projetosWithParticipante(filters["participante"])
-            if not current.session.allProjects:
-                current.session.allProjects = self._sortedContent("V_PROJETOS", "ID_PROJETO")
-
-            projetos = [p for p in current.session.allProjects if p["ID_PROJETO"] in comParticipante]
+            allProjects = self._sortedContent("V_PROJETOS", "ID_PROJETO")
+            projetos = [p for p in allProjects if p["ID_PROJETO"] in comParticipante]
         else:
             projetos = self._getContent("V_PROJETOS", filters)
 
