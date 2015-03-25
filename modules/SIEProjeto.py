@@ -10,7 +10,6 @@ class SIEProjeto(object):
         self.lmax = 1000
         self.cacheTime = 86400
 
-
     def _getContent(self, path, params={}, fields=[]):
         """
 
